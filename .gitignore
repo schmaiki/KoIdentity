@@ -1,0 +1,15 @@
+# User specific Files
+*.user
+
+# Mac Related-Files
+.DS_Store
+
+# JetBrains Related-Files
+.idea/
+
+# Build results
+[Oo]bj/
+[Bb]in/
+
+# SonarQube
+.sonarqube/*
