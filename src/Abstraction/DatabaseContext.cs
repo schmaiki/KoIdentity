@@ -22,14 +22,14 @@ namespace Tekoding.KoIdentity.Abstraction;
     /// Provides the base abstraction of the EntityFramework database context, which is using the default implementation
     /// for KoIdentity.
     /// </summary>
-    /// <typeparam name="TEntity">The type encapsulating an <see cref="Entity"/>.</typeparam>
-    public abstract class DatabaseContext<TEntity> : DbContext
-        where TEntity : Entity
+    /// <typeparam name="TDefaultEntity">The type encapsulating a default <see cref="Entity"/>.</typeparam>
+    public abstract class DatabaseContext<TDefaultEntity> : DbContext
+        where TDefaultEntity : Entity
     {
         private string DatabaseSchema { get; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DatabaseContext{TEntity}"/>.
+        /// Initializes a new instance of <see cref="DatabaseContext{TDefaultEntity}"/>.
         /// </summary>
         /// <param name="options">The options to be used by a <see cref="DbContext"/>.</param>
         /// <param name="databaseSchema">The database schema name.</param>
@@ -41,7 +41,7 @@ namespace Tekoding.KoIdentity.Abstraction;
 
         /// <summary>
         /// Further configuration of the model that was discovered by convention from the entity types
-        /// exposed in <see cref="DbSet{TEntity}"/> properties on the derived context.
+        /// exposed in <see cref="DbSet{TDefaultEntity}"/> properties on the derived context.
         /// </summary>
         /// <remarks>
         /// If a model is explicitly set on the options for this context then this method will not be run.
@@ -53,7 +53,7 @@ namespace Tekoding.KoIdentity.Abstraction;
         /// </param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TEntity>().BuildDefaultEntity();
+            modelBuilder.Entity<TDefaultEntity>().BuildDefaultEntity();
 
             modelBuilder.HasDefaultSchema(DatabaseSchema);
         }
@@ -62,9 +62,9 @@ namespace Tekoding.KoIdentity.Abstraction;
         #nullable disable
         
         /// <summary>
-        /// Gets or sets the <see cref="DbSet{TEntity}"/> of the main entity.
+        /// Gets or sets the <see cref="DbSet{TDefaultEntity}"/> of the main entity.
         /// </summary>
-        public DbSet<TEntity> MainEntities { get; set; }
+        public DbSet<TDefaultEntity> MainEntities { get; set; }
         
         #nullable restore
     }
