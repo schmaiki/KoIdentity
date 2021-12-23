@@ -15,4 +15,8 @@
       <DocumentationFile>bin\Release\net6.0\Core.xml</DocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Abstraction\Abstraction.csproj" />
+    </ItemGroup>
+
 </Project>
