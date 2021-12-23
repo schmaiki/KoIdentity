@@ -20,26 +20,22 @@ namespace Tekoding.KoIdentity.Abstraction.Extension;
 /// <summary>
 /// Represents the result of an operation within the Tekoding subsystem.
 /// </summary>
-public class OperationResult
+public sealed class OperationResult
 {
-    /// <summary>
-    /// Flag indicating whether if the operation succeeded or not.
-    /// </summary>
-    /// <value>True if the operation succeeded, otherwise false.</value>
-    private bool Succeeded { get; init; }
+    private readonly bool _succeeded;
+    private readonly IEnumerable<Error>? _errors;
+    
+    private OperationResult(bool succeeded, IEnumerable<Error>? errors = null)
+    {
+        _succeeded = succeeded;
+        _errors = errors;
+    }
 
     /// <summary>
     /// Returns an <see cref="OperationResult"/> indicating the success of an operation.
     /// </summary>
     /// <returns>An <see cref="OperationResult"/> indicating the success of an operation.</returns>
-    public static OperationResult Success => new() {Succeeded = true};
-
-    /// <summary>
-    /// An <see cref="IEnumerable{T}"/> of <see cref="Error"/> instances containing errors
-    /// that occurred during the operation.
-    /// </summary>
-    /// <value>An <see cref="IEnumerable{T}"/> of <see cref="Error"/> instances.</value>
-    private IEnumerable<Error>? Errors { get; init; }
+    public static OperationResult Success => new(true);
 
     /// <summary>
     /// Creates an <see cref="OperationResult"/> indicating a failed entity operation,
@@ -51,8 +47,8 @@ public class OperationResult
     /// if applicable.
     /// </returns>
     public static OperationResult Failed(params Error[]? errors) => errors != null
-        ? new OperationResult {Succeeded = false, Errors = errors}
-        : new OperationResult {Succeeded = false};
+        ? new OperationResult(false, errors)
+        : new OperationResult(false);
 
     /// <summary>
     /// Converts the value of the current <see cref="OperationResult"/> object to its equivalent string representation.
@@ -60,23 +56,23 @@ public class OperationResult
     /// <returns>A string representation of the current <see cref="OperationResult"/> object.</returns>
     /// <remarks>
     /// If the operation was successful the ToString() will return "Succeeded" otherwise it returns
-    /// "Failed : " followed by a comma delimited list of error codes from its <see cref="Errors"/> collection, if any.
+    /// "Failed : " followed by a comma delimited list of error codes from its error collection, if any.
     /// </remarks>
     public override string ToString()
     {
-        if (Succeeded)
+        if (_succeeded)
         {
             return "Succeeded";
         }
 
-        if (Errors == null)
+        if (_errors == null)
         {
             return "Failed without Errors";
         }
 
         return string.Format(CultureInfo.InvariantCulture, "{0} : {1}", "Failed",
             string.Join(",",
-                "Error: " + Errors.Select(x => x.Code).ToList() + " Description: " +
-                Errors.Select(x => x.Description).ToList()));
+                "Error: " + _errors.Select(x => x.Code).ToList() + " Description: " +
+                _errors.Select(x => x.Description).ToList()));
     }
 }

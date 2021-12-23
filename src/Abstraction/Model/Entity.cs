@@ -34,5 +34,5 @@ public abstract class Entity
     /// <summary>
     /// The date, when the <see cref="Entity"/> was changed.
     /// </summary>
-    public DateTime ChangeDate { get;}
+    public DateTime ChangeDate { get; }
 }
