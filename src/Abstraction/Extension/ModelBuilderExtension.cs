@@ -12,6 +12,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the MIT
 // License for more details.
 
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Tekoding.KoIdentity.Abstraction.Model;
@@ -42,6 +43,22 @@ public static class ModelBuilderExtension
 
         entityTypeBuilder.ToTable(typeof(TEntityModel).Name);
 
+        return entityTypeBuilder;
+    }
+
+    /// <summary>
+    /// Building an unique index for an <see cref="TEntityModel"/>.
+    /// </summary>
+    /// <param name="entityTypeBuilder">The <see cref="EntityTypeBuilder"/> used.</param>
+    /// <param name="indexExpression">
+    /// The <see cref="Expression{TDelegate}"/> used to define the param where the unique index should be.</param>
+    /// <typeparam name="TEntityModel">The type encapsulating an <see cref="Entity"/>.</typeparam>
+    /// <returns>The <see cref="EntityTypeBuilder{TEntity}"/> used to build the default entity.</returns>
+    public static EntityTypeBuilder<TEntityModel> BuildUniqueIndex<TEntityModel>(
+        this EntityTypeBuilder<TEntityModel> entityTypeBuilder, Expression<Func<TEntityModel, object?>> indexExpression)
+        where TEntityModel : Entity
+    {
+        entityTypeBuilder.HasIndex(indexExpression).IsUnique();
         return entityTypeBuilder;
     }
 }
