@@ -24,7 +24,7 @@ public sealed class OperationResult
 {
     private readonly bool _succeeded;
     private readonly IEnumerable<Error>? _errors;
-    
+
     private OperationResult(bool succeeded, IEnumerable<Error>? errors = null)
     {
         _succeeded = succeeded;
@@ -71,8 +71,6 @@ public sealed class OperationResult
         }
 
         return string.Format(CultureInfo.InvariantCulture, "{0} : {1}", "Failed",
-            string.Join(",",
-                "Error: " + _errors.Select(x => x.Code).ToList() + " Description: " +
-                _errors.Select(x => x.Description).ToList()));
+            string.Join(",", _errors.Select(x => x.Code).ToList()));
     }
 }
