@@ -35,6 +35,10 @@ public class ErrorDescriber
         };
     }
 
+    /// <summary>
+    /// Returns an <see cref="Error"/> indicating an update failed because the entity state is not modified.
+    /// </summary>
+    /// <returns>An <see cref="Error"/> indicating that the entity to be updated was unmodified.</returns>
     public virtual Error EntityStateUnmodified()
     {
         return new Error

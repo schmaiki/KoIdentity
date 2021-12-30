@@ -123,9 +123,9 @@ public abstract class EntityStore<TDbContext, TEntity> : IEntityStore<TEntity>
         
         if (id == Guid.Empty)
         {
-            throw new InvalidOperationException("Empty GUID provided.");
+            throw new InvalidOperationException("An empty GUID was provided.");
         }
 
-        return await DbContext.FindAsync<TEntity>(new object[] {id}, cancellationToken: cancellationToken);
+        return await DbContext.FindAsync<TEntity>(new object[] {id}, cancellationToken);
     }
 }

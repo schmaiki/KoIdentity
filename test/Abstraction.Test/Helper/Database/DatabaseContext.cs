@@ -12,7 +12,6 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the MIT
 // License for more details.
 
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Tekoding.KoIdentity.Abstraction.Test.Helper.Model;
