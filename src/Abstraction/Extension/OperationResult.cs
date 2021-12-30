@@ -51,9 +51,7 @@ public sealed class OperationResult
     /// An <see cref="OperationResult"/> indicating a failed entity operation, with a list of <paramref name="errors"/>
     /// if applicable.
     /// </returns>
-    public static OperationResult Failed(params Error[]? errors) => errors != null
-        ? new OperationResult(false, errors)
-        : new OperationResult(false);
+    public static OperationResult Failed(params Error[]? errors) => new(false);
 
     /// <summary>
     /// Converts the value of the current <see cref="OperationResult"/> object to its equivalent string representation.
