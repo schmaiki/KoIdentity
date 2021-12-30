@@ -22,12 +22,17 @@ namespace Tekoding.KoIdentity.Abstraction.Extension;
 /// </summary>
 public sealed class OperationResult
 {
-    private readonly bool _succeeded;
     private readonly IEnumerable<Error>? _errors;
+    
+    /// <summary>
+    /// Gets the state of the <see cref="OperationResult"/> indicating if the operation succeeded or not.
+    /// </summary>
+    /// <example><b>TRUE</b> when the operation succeeded, <b>FALSE</b> if not.</example>
+    public bool State { get; }
 
     private OperationResult(bool succeeded, IEnumerable<Error>? errors = null)
     {
-        _succeeded = succeeded;
+        State = succeeded;
         _errors = errors;
     }
 
@@ -60,7 +65,7 @@ public sealed class OperationResult
     /// </remarks>
     public override string ToString()
     {
-        if (_succeeded)
+        if (State)
         {
             return "Succeeded";
         }
