@@ -22,12 +22,22 @@ namespace Tekoding.KoIdentity.Abstraction.Extension;
 /// </summary>
 public sealed class OperationResult
 {
-    private readonly bool _succeeded;
     private readonly IEnumerable<Error>? _errors;
-    
+
+    /// <summary>
+    /// Gets the state of the <see cref="OperationResult"/> indicating if the operation succeeded or not.
+    /// </summary>
+    /// <example><b>TRUE</b> when the operation succeeded, <b>FALSE</b> if not.</example>
+    public bool State { get; }
+
+    /// <summary>
+    /// Gets the amount of <see cref="Error"/>s, if any, assigned to this <see cref="OperationResult"/>.
+    /// </summary>
+    public int ErrorCount => _errors?.Count() ?? 0;
+
     private OperationResult(bool succeeded, IEnumerable<Error>? errors = null)
     {
-        _succeeded = succeeded;
+        State = succeeded;
         _errors = errors;
     }
 
@@ -46,9 +56,10 @@ public sealed class OperationResult
     /// An <see cref="OperationResult"/> indicating a failed entity operation, with a list of <paramref name="errors"/>
     /// if applicable.
     /// </returns>
-    public static OperationResult Failed(params Error[]? errors) => errors != null
-        ? new OperationResult(false, errors)
-        : new OperationResult(false);
+    public static OperationResult Failed(params Error[] errors) =>
+        errors.Length == 0
+            ? throw new InvalidOperationException("At least one Error has to be assigned.")
+            : new OperationResult(false, errors);
 
     /// <summary>
     /// Converts the value of the current <see cref="OperationResult"/> object to its equivalent string representation.
@@ -60,7 +71,7 @@ public sealed class OperationResult
     /// </remarks>
     public override string ToString()
     {
-        if (_succeeded)
+        if (State)
         {
             return "Succeeded";
         }
@@ -70,9 +81,7 @@ public sealed class OperationResult
             return "Failed without Errors";
         }
 
-        return string.Format(CultureInfo.InvariantCulture, "{0} : {1}", "Failed",
-            string.Join(",",
-                "Error: " + _errors.Select(x => x.Code).ToList() + " Description: " +
-                _errors.Select(x => x.Description).ToList()));
+        return string.Format(CultureInfo.InvariantCulture, "{0}: {1}", "Failed",
+            string.Join(",", _errors.Select(x => x.Code).ToList()));
     }
 }

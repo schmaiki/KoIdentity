@@ -56,5 +56,11 @@ namespace Tekoding.KoIdentity.Abstraction.Extension.Exception {
                 return ResourceManager.GetString("ConcurrencyFailure", resourceCulture);
             }
         }
+        
+        internal static string EntityStateUnmodified {
+            get {
+                return ResourceManager.GetString("EntityStateUnmodified", resourceCulture);
+            }
+        }
     }
 }
