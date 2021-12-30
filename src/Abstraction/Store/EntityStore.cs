@@ -73,7 +73,7 @@ public abstract class EntityStore<TDbContext, TEntity> : IEntityStore<TEntity>
 
         if (DbContext.Entry(entity).State != EntityState.Modified)
         {
-            return OperationResult.Failed();
+            return OperationResult.Failed(ErrorDescriber.EntityStateUnmodified());
         }
 
         DbContext.Attach(entity);
@@ -123,7 +123,7 @@ public abstract class EntityStore<TDbContext, TEntity> : IEntityStore<TEntity>
         
         if (id == Guid.Empty)
         {
-            return null;
+            throw new InvalidOperationException("Empty GUID provided.");
         }
 
         return await DbContext.FindAsync<TEntity>(new object[] {id}, cancellationToken: cancellationToken);

@@ -20,4 +20,6 @@ namespace Tekoding.KoIdentity.Abstraction.Test.Helper;
 internal static class Constant
 {
     internal static List<DefaultEntity> DatabaseMainEntities { get; set; } = new();
+
+    internal static readonly DefaultEntity NotExistingEntity = new();
 }

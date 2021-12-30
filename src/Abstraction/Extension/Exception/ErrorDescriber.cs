@@ -35,6 +35,15 @@ public class ErrorDescriber
         };
     }
 
+    public virtual Error EntityStateUnmodified()
+    {
+        return new Error
+        {
+            Code = nameof(EntityStateUnmodified),
+            Description = ErrorResources.EntityStateUnmodified,
+        };
+    }
+
     /// <summary>
     /// Returns an <see cref="Error"/> indicating a concurrency failure.
     /// </summary>

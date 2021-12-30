@@ -24,4 +24,7 @@
     <data name="ConcurrencyFailure" xml:space="preserve">
         <value>Optimistic concurrency failure, object has been modified.</value>
     </data>
+    <data name="EntityStateUnmodified" xml:space="preserve">
+        <value>The Entity state is unmodified.</value>
+    </data>
 </root>
